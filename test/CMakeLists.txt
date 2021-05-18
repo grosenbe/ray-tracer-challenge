@@ -1,0 +1,10 @@
+add_executable(raytracerchallenge-test
+  Ch1-test.cpp
+  )
+
+target_include_directories(raytracerchallenge-test PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..)
+
+target_link_libraries(raytracerchallenge-test
+  raytracerchallenge
+  gtest
+  gtest_main)
