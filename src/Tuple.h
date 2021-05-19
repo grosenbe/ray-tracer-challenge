@@ -32,12 +32,12 @@ class Tuple {
 
   Tuple Normalize() const;
 
+  static std::unique_ptr<Tuple> Vector(double, double, double);
+  static std::unique_ptr<Tuple> Point(double, double, double);
+
  private:
   double x, y, z, w;
 };
-
-Tuple Point(double, double, double);
-Tuple Vector(double, double, double);
 
 double Dot(const Tuple &, const Tuple &);
 Tuple Cross(const Tuple &, const Tuple &);
