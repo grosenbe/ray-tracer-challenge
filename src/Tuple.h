@@ -6,26 +6,41 @@ class Tuple {
   Tuple(double, double, double, double);
 
   double
-  GetX() { return x; }
+  GetX() const { return x; }
 
   double
-  GetY() { return y; }
+  GetY() const { return y; }
 
   double
-  GetZ() { return z; }
+  GetZ() const { return z; }
 
-  bool IsPoint();
+  double
+  GetW() const { return w; }
 
-  Tuple operator+(Tuple);
-  Tuple operator-(Tuple);
+  bool
+  IsPoint() const;
+
+  Tuple operator+(const Tuple &) const;
+  Tuple operator-(const Tuple &) const;
+
+  bool operator==(const Tuple &) const;
+
+  Tuple operator*(const double) const;
+  Tuple operator/(const double) const;
+
+  double Magnitude() const;
+
+  Tuple Normalize() const;
+
+  static std::unique_ptr<Tuple> Vector(double, double, double);
+  static std::unique_ptr<Tuple> Point(double, double, double);
 
  private:
-  double x, y, z;
-  bool w;
+  double x, y, z, w;
 };
 
-Tuple Point(double, double, double);
-Tuple Vector(double, double, double);
+double Dot(const Tuple &, const Tuple &);
+Tuple Cross(const Tuple &, const Tuple &);
 
 bool CompareDoubles(double, double);
 #endif
