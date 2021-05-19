@@ -7,4 +7,5 @@ target_include_directories(raytracerchallenge-test PUBLIC ${CMAKE_CURRENT_SOURCE
 target_link_libraries(raytracerchallenge-test
   raytracerchallenge
   gtest
-  gtest_main)
+  gtest_main
+  pthread)
