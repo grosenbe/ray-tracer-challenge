@@ -3,8 +3,6 @@
 #include <memory>
 class Tuple {
  public:
-  Tuple(double, double, double, double);
-
   double
   GetX() const { return x; }
 
@@ -32,11 +30,13 @@ class Tuple {
 
   Tuple Normalize() const;
 
-  static std::unique_ptr<Tuple> Vector(double, double, double);
-  static std::unique_ptr<Tuple> Point(double, double, double);
+  static std::unique_ptr<Tuple> MakeVector(double, double, double);
+  static std::unique_ptr<Tuple> MakePoint(double, double, double);
+  static std::unique_ptr<Tuple> MakeTuple(double, double, double, double);
 
  private:
   double x, y, z, w;
+  Tuple(double, double, double, double);
 };
 
 double Dot(const Tuple &, const Tuple &);

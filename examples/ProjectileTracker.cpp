@@ -28,9 +28,9 @@ tick(environment &env, projectile &proj) {
 
 int
 main(int argc __attribute__((unused)), char **argv __attribute__((unused))) {
-  projectile p{*Tuple::Point(0, 1, 0), Tuple::Vector(1, 1, 0)->Normalize()};
+  projectile p{*Tuple::MakePoint(0, 1, 0), Tuple::MakeVector(1, 1, 0)->Normalize()};
 
-  environment e{*Tuple::Vector(0, -0.1, 0), *Tuple::Vector(-0.01, 0, 0)};
+  environment e{*Tuple::MakeVector(0, -0.1, 0), *Tuple::MakeVector(-0.01, 0, 0)};
 
   while (p.position.GetY() > 0) {
     p = tick(e, p);

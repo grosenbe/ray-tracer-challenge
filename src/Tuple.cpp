@@ -5,8 +5,6 @@
 #include <limits>
 #include <stdexcept>
 
-using std::make_unique;
-
 Tuple::Tuple(double X, double Y, double Z, double W) : x(X), y(Y), z(Z), w(W) {
 }
 
@@ -18,13 +16,18 @@ CompareDoubles(double a, double b) {
 }
 
 std::unique_ptr<Tuple>
-Tuple::Point(double X, double Y, double Z) {
-  return make_unique<Tuple>(X, Y, Z, 1.0);
+Tuple::MakeTuple(double X, double Y, double Z, double W) {
+  return std::unique_ptr<Tuple>(new Tuple(X, Y, Z, W));
 }
 
 std::unique_ptr<Tuple>
-Tuple::Vector(double X, double Y, double Z) {
-  return make_unique<Tuple>(X, Y, Z, 0.0);
+Tuple::MakePoint(double X, double Y, double Z) {
+  return std::unique_ptr<Tuple>(new Tuple(X, Y, Z, 1.0));
+}
+
+std::unique_ptr<Tuple>
+Tuple::MakeVector(double X, double Y, double Z) {
+  return std::unique_ptr<Tuple>(new Tuple(X, Y, Z, 0.0));
 }
 
 bool
@@ -87,7 +90,7 @@ Dot(const Tuple &t1, const Tuple &t2) {
 Tuple
 Cross(const Tuple &a, const Tuple &b) {
   // TODO: ensure and b are vectors.
-  return *Tuple::Vector(a.GetY() * b.GetZ() - a.GetZ() * b.GetY(),
-                        a.GetZ() * b.GetX() - a.GetX() * b.GetZ(),
-                        a.GetX() * b.GetY() - a.GetY() * b.GetX());
+  return *Tuple::MakeVector(a.GetY() * b.GetZ() - a.GetZ() * b.GetY(),
+                            a.GetZ() * b.GetX() - a.GetX() * b.GetZ(),
+                            a.GetX() * b.GetY() - a.GetY() * b.GetX());
 }
