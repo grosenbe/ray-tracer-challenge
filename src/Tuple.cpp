@@ -35,6 +35,11 @@ Tuple::IsPoint() const {
   return CompareDoubles(w, 1.0);
 }
 
+bool
+Tuple::IsVector() const {
+  return CompareDoubles(w, 0.0);
+}
+
 Tuple
 Tuple::operator+(const Tuple &t1) const {
   if (IsPoint() && t1.IsPoint()) {
@@ -90,6 +95,9 @@ Dot(const Tuple &t1, const Tuple &t2) {
 Tuple
 Cross(const Tuple &a, const Tuple &b) {
   // TODO: ensure and b are vectors.
+  if (!a.IsVector() || !b.IsVector())
+    throw std::runtime_error("Cross product only works on vectors.");
+
   return *Tuple::MakeVector(a.GetY() * b.GetZ() - a.GetZ() * b.GetY(),
                             a.GetZ() * b.GetX() - a.GetX() * b.GetZ(),
                             a.GetX() * b.GetY() - a.GetY() * b.GetX());

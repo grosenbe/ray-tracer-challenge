@@ -5,33 +5,28 @@
 
 #include "src/Tuple.h"
 
-TEST(ch1tests, construct_tuples) {
-  auto A = Tuple::MakePoint(4.3, -4.2, 3.1);
-  EXPECT_EQ(A->GetX(), 4.3);
-  EXPECT_EQ(A->GetY(), -4.2);
-  EXPECT_EQ(A->GetZ(), 3.1);
-  EXPECT_TRUE(A->IsPoint());
-
-  auto B = Tuple::MakeVector(4.3, -4.2, 3.1);
-  EXPECT_EQ(B->GetX(), 4.3);
-  EXPECT_EQ(B->GetY(), -4.2);
-  EXPECT_EQ(B->GetZ(), 3.1);
-  EXPECT_FALSE(B->IsPoint());
-}
-
 TEST(ch1tests, factory_functions) {
   auto p = Tuple::MakePoint(4, -4, 3);
   auto v = Tuple::MakeVector(4, -4, 3);
+  auto t = Tuple::MakeTuple(4, -4, 3, 3);
 
   EXPECT_EQ(p->GetX(), 4);
   EXPECT_EQ(p->GetY(), -4);
   EXPECT_EQ(p->GetZ(), 3);
   EXPECT_TRUE(p->IsPoint());
+  EXPECT_FALSE(p->IsVector());
 
   EXPECT_EQ(v->GetX(), 4);
   EXPECT_EQ(v->GetY(), -4);
   EXPECT_EQ(v->GetZ(), 3);
+  EXPECT_TRUE(v->IsVector());
   EXPECT_FALSE(v->IsPoint());
+
+  EXPECT_EQ(t->GetX(), 4);
+  EXPECT_EQ(t->GetY(), -4);
+  EXPECT_EQ(t->GetZ(), 3);
+  EXPECT_FALSE(t->IsPoint());
+  EXPECT_FALSE(t->IsVector());
 }
 
 TEST(ch1tests, tuple_addition) {
@@ -98,7 +93,9 @@ TEST(ch1test, tuple_dotProduct) {
 TEST(ch1test, tuple_crossProduct) {
   auto a = Tuple::MakeVector(1, 2, 3);
   auto b = Tuple::MakeVector(2, 3, 4);
+  auto c = Tuple::MakeTuple(5, 6, 7, 8);
 
+  EXPECT_THROW(Cross(*a, *c), std::runtime_error);
   EXPECT_EQ(Cross(*a, *b), *Tuple::MakeVector(-1, 2, -1));
   EXPECT_EQ(Cross(*b, *a), *Tuple::MakeVector(1, -2, 1));
 }

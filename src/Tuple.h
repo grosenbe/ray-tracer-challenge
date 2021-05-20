@@ -18,6 +18,9 @@ class Tuple {
   bool
   IsPoint() const;
 
+  bool
+  IsVector() const;
+
   Tuple operator+(const Tuple &) const;
   Tuple operator-(const Tuple &) const;
 
