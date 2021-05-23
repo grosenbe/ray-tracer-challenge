@@ -88,6 +88,7 @@ TEST(ch1test, tuple_dotProduct) {
   auto b = Tuple::MakeVector(2, 3, 4);
 
   EXPECT_EQ(Dot(*a, *b), 20);
+  EXPECT_EQ(Dot(a, b), 20);
 }
 
 TEST(ch1test, tuple_crossProduct) {
@@ -98,4 +99,8 @@ TEST(ch1test, tuple_crossProduct) {
   EXPECT_THROW(Cross(*a, *c), std::runtime_error);
   EXPECT_EQ(Cross(*a, *b), *Tuple::MakeVector(-1, 2, -1));
   EXPECT_EQ(Cross(*b, *a), *Tuple::MakeVector(1, -2, 1));
+
+  EXPECT_THROW(Cross(a, c), std::runtime_error);
+  EXPECT_EQ(*Cross(a, b), *Tuple::MakeVector(-1, 2, -1));
+  EXPECT_EQ(*Cross(b, a), *Tuple::MakeVector(1, -2, 1));
 }

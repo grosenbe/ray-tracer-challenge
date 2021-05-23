@@ -92,13 +92,31 @@ Dot(const Tuple &t1, const Tuple &t2) {
          t1.GetZ() * t2.GetZ();
 }
 
+double
+Dot(const std::unique_ptr<Tuple> &t1, const std::unique_ptr<Tuple> &t2) {
+  return t1->GetX() * t2->GetX() +
+         t1->GetY() * t2->GetY() +
+         t1->GetZ() * t2->GetZ();
+}
+
 Tuple
 Cross(const Tuple &a, const Tuple &b) {
-  // TODO: ensure and b are vectors.
   if (!a.IsVector() || !b.IsVector())
     throw std::runtime_error("Cross product only works on vectors.");
 
   return *Tuple::MakeVector(a.GetY() * b.GetZ() - a.GetZ() * b.GetY(),
                             a.GetZ() * b.GetX() - a.GetX() * b.GetZ(),
                             a.GetX() * b.GetY() - a.GetY() * b.GetX());
+}
+
+std::unique_ptr<Tuple>
+Cross(const std::unique_ptr<Tuple> &a, const std::unique_ptr<Tuple> &b) {
+  if (!a->IsVector() || !b->IsVector())
+    throw std::runtime_error("Cross product only works on vectors.");
+
+  auto T = Tuple::MakeVector(a->GetY() * b->GetZ() - a->GetZ() * b->GetY(),
+                             a->GetZ() * b->GetX() - a->GetX() * b->GetZ(),
+                             a->GetX() * b->GetY() - a->GetY() * b->GetX());
+
+  return T;
 }

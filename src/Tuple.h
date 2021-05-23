@@ -43,7 +43,9 @@ class Tuple {
 };
 
 double Dot(const Tuple &, const Tuple &);
+double Dot(const std::unique_ptr<Tuple> &, const std::unique_ptr<Tuple> &);
 Tuple Cross(const Tuple &, const Tuple &);
+std::unique_ptr<Tuple> Cross(const std::unique_ptr<Tuple> &, const std::unique_ptr<Tuple> &);
 
 bool CompareDoubles(double, double);
 #endif
