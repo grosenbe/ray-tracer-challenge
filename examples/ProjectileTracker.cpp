@@ -5,13 +5,13 @@
 int main(int, char **);
 
 struct environment {
-  Tuple gravity;
-  Tuple wind;
+  RTC::Tuple gravity;
+  RTC::Tuple wind;
 };
 
 struct projectile {
-  Tuple position;
-  Tuple velocity;
+  RTC::Tuple position;
+  RTC::Tuple velocity;
 
   void
   print() {
@@ -28,9 +28,9 @@ tick(environment &env, projectile &proj) {
 
 int
 main(int argc __attribute__((unused)), char **argv __attribute__((unused))) {
-  projectile p{*Tuple::MakePoint(0, 1, 0), Tuple::MakeVector(1, 1, 0)->Normalize()};
+  projectile p{*RTC::Tuple::MakePoint(0, 1, 0), RTC::Tuple::MakeVector(1, 1, 0)->Normalize()};
 
-  environment e{*Tuple::MakeVector(0, -0.1, 0), *Tuple::MakeVector(-0.01, 0, 0)};
+  environment e{*RTC::Tuple::MakeVector(0, -0.1, 0), *RTC::Tuple::MakeVector(-0.01, 0, 0)};
 
   while (p.position.GetY() > 0) {
     p = tick(e, p);

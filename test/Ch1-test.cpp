@@ -5,6 +5,8 @@
 
 #include "src/Tuple.h"
 
+using namespace RTC;
+
 TEST(ch1tests, factory_functions) {
   auto p = Tuple::MakePoint(4, -4, 3);
   auto v = Tuple::MakeVector(4, -4, 3);

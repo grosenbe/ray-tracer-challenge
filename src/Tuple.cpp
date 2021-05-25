@@ -5,11 +5,13 @@
 #include <limits>
 #include <stdexcept>
 
+using namespace RTC;
+
 Tuple::Tuple(double X, double Y, double Z, double W) : x(X), y(Y), z(Z), w(W) {
 }
 
 bool
-CompareDoubles(double a, double b) {
+RTC::CompareDoubles(double a, double b) {
   if (std::abs(a - b) > std::numeric_limits<double>::epsilon())
     return false;
   return true;
@@ -71,6 +73,11 @@ Tuple::operator*(const double d) const {
 }
 
 Tuple
+Tuple::operator*(const Tuple &other) const {
+  return Tuple(GetX() * other.GetX(), GetY() * other.GetY(), GetZ() * other.GetZ(), GetW() * other.GetW());
+}
+
+Tuple
 Tuple::operator/(const double d) const {
   return Tuple(GetX() / d, GetY() / d, GetZ() / d, GetW() / d);
 }
@@ -86,21 +93,21 @@ Tuple::Normalize() const {
 }
 
 double
-Dot(const Tuple &t1, const Tuple &t2) {
+RTC::Dot(const Tuple &t1, const Tuple &t2) {
   return t1.GetX() * t2.GetX() +
          t1.GetY() * t2.GetY() +
          t1.GetZ() * t2.GetZ();
 }
 
 double
-Dot(const std::unique_ptr<Tuple> &t1, const std::unique_ptr<Tuple> &t2) {
+RTC::Dot(const std::unique_ptr<Tuple> &t1, const std::unique_ptr<Tuple> &t2) {
   return t1->GetX() * t2->GetX() +
          t1->GetY() * t2->GetY() +
          t1->GetZ() * t2->GetZ();
 }
 
 Tuple
-Cross(const Tuple &a, const Tuple &b) {
+RTC::Cross(const Tuple &a, const Tuple &b) {
   if (!a.IsVector() || !b.IsVector())
     throw std::runtime_error("Cross product only works on vectors.");
 
@@ -110,7 +117,7 @@ Cross(const Tuple &a, const Tuple &b) {
 }
 
 std::unique_ptr<Tuple>
-Cross(const std::unique_ptr<Tuple> &a, const std::unique_ptr<Tuple> &b) {
+RTC::Cross(const std::unique_ptr<Tuple> &a, const std::unique_ptr<Tuple> &b) {
   if (!a->IsVector() || !b->IsVector())
     throw std::runtime_error("Cross product only works on vectors.");
 

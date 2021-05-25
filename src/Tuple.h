@@ -1,6 +1,7 @@
 #ifndef TUPLE_H
 #define TUPLE_H
 #include <memory>
+namespace RTC {
 class Tuple {
  public:
   double
@@ -27,6 +28,7 @@ class Tuple {
   bool operator==(const Tuple &) const;
 
   Tuple operator*(const double) const;
+  Tuple operator*(const Tuple &) const;
   Tuple operator/(const double) const;
 
   double Magnitude() const;
@@ -37,9 +39,11 @@ class Tuple {
   static std::unique_ptr<Tuple> MakePoint(double, double, double);
   static std::unique_ptr<Tuple> MakeTuple(double, double, double, double);
 
+ protected:
+  Tuple(double, double, double, double);
+
  private:
   double x, y, z, w;
-  Tuple(double, double, double, double);
 };
 
 double Dot(const Tuple &, const Tuple &);
@@ -48,4 +52,5 @@ Tuple Cross(const Tuple &, const Tuple &);
 std::unique_ptr<Tuple> Cross(const std::unique_ptr<Tuple> &, const std::unique_ptr<Tuple> &);
 
 bool CompareDoubles(double, double);
+}  // namespace RTC
 #endif
