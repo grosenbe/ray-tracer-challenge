@@ -3,7 +3,7 @@
 #+EMAIL: geoff@cgrosenberg.com
 
 This repository contains code I have written while working through Janis Buck's
-_The Ray Tracer Challenge_.
+/The Ray Tracer Challenge/.
 
 * Getting Started
 ** Building the Project
