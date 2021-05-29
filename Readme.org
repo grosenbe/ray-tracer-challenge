@@ -1,0 +1,11 @@
+#+TITLE: Ray Tracer Challenge
+#+AUTHOR: Geoff Rosenberg
+#+EMAIL: geoff@cgrosenberg.com
+
+This repository contains code I have written while working through Janis Buck's
+/The Ray Tracer Challenge/.
+
+* Getting Started
+** Building the Project
+   To run it on Ubuntu, first run the [[file:install_build_prereqs.sh][install_build_prereqs.sh]]
+   file, and then run [[file:ci_build.sh][ci_build.sh]] to build the project and run the tests.
