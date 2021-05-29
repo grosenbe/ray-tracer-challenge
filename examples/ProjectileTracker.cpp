@@ -33,13 +33,13 @@ int
 main(int argc __attribute__((unused)), char **argv __attribute__((unused))) {
   projectile p{*RTC::Tuple::MakePoint(0, 1, 0), RTC::Tuple::MakeVector(1, 1, 0)->Normalize()};
 
-  environment e{*RTC::Tuple::MakeVector(0, -9.81, 0), *RTC::Tuple::MakeVector(0, 0, 0)};
+  environment e{*RTC::Tuple::MakeVector(0, -0.1, 0), *RTC::Tuple::MakeVector(0, 0, 0)};
 
-  Canvas canvas(100, 100);
+  Canvas canvas(20, 20);
 
   while (p.position.GetY() > 0) {
     p = tick(e, p);
-    canvas.WritePixel(p.position.GetX(), 100 - p.position.GetY(), Color(1, 1, 0));
+    canvas.WritePixel(p.position.GetX(), 19 - p.position.GetY(), Color(0, 1, 0));
   }
 
   canvas.CanvasToPPM("Projectile.ppm");
