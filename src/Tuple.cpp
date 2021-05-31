@@ -12,24 +12,26 @@ Tuple::Tuple(double X, double Y, double Z, double W) : x(X), y(Y), z(Z), w(W) {
 
 bool
 RTC::CompareDoubles(double a, double b) {
-  if (std::abs(a - b) > std::numeric_limits<double>::epsilon())
+  auto eps = 0.00001;
+  if (std::abs(a - b) > eps)
     return false;
   return true;
 }
 
 std::unique_ptr<Tuple>
 Tuple::MakeTuple(double X, double Y, double Z, double W) {
-  return std::unique_ptr<Tuple>(new Tuple(X, Y, Z, W));
+  return std::make_unique<Tuple>(X, Y, Z, W);
+  ;
 }
 
 std::unique_ptr<Tuple>
 Tuple::MakePoint(double X, double Y, double Z) {
-  return std::unique_ptr<Tuple>(new Tuple(X, Y, Z, 1.0));
+  return std::make_unique<Tuple>(X, Y, Z, 1.0);
 }
 
 std::unique_ptr<Tuple>
 Tuple::MakeVector(double X, double Y, double Z) {
-  return std::unique_ptr<Tuple>(new Tuple(X, Y, Z, 0.0));
+  return std::make_unique<Tuple>(X, Y, Z, 0.0);
 }
 
 bool
