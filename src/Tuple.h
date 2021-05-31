@@ -39,7 +39,6 @@ class Tuple {
   static std::unique_ptr<Tuple> MakePoint(double, double, double);
   static std::unique_ptr<Tuple> MakeTuple(double, double, double, double);
 
- protected:
   Tuple(double, double, double, double);
 
  private:
