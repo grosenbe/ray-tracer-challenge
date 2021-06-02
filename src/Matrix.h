@@ -1,3 +1,4 @@
+#include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <memory>
@@ -6,6 +7,8 @@
 using std::vector;
 
 namespace RTC {
+
+constexpr double PI = 3.14159265358979323846;
 
 class Tuple;
 
@@ -36,4 +39,30 @@ class Matrix {
  protected:
   vector<vector<double>> data;
 };
+
+class Translation : public Matrix {
+ public:
+  Translation(double, double, double);
+};
+
+class Scaling : public Matrix {
+ public:
+  Scaling(double, double, double);
+};
+
+class RotationX : public Matrix {
+ public:
+  RotationX(double);
+};
+
+class RotationY : public Matrix {
+ public:
+  RotationY(double);
+};
+
+class RotationZ : public Matrix {
+ public:
+  RotationZ(double);
+};
+
 };  // namespace RTC

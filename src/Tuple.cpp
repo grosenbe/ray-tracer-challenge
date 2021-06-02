@@ -21,7 +21,6 @@ RTC::CompareDoubles(double a, double b) {
 std::unique_ptr<Tuple>
 Tuple::MakeTuple(double X, double Y, double Z, double W) {
   return std::make_unique<Tuple>(X, Y, Z, W);
-  ;
 }
 
 std::unique_ptr<Tuple>

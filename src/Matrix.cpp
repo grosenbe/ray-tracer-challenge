@@ -108,7 +108,7 @@ std::unique_ptr<Tuple>
 Matrix::operator*(const Tuple& Tuple) const {
   auto mySize = GetSize();
   if (mySize[0] != 4 || mySize[1] != 4) {
-    throw std::runtime_error("Can only multiply 4x4 matricies by tuples");
+    throw std::runtime_error("Can only multiply 4x4 matricies by 4-tuples");
   }
 
   return Tuple::MakeTuple(data[0][0] * Tuple.GetX() + data[0][1] * Tuple.GetY() + data[0][2] * Tuple.GetZ() + data[0][3] * Tuple.GetW(),
@@ -137,7 +137,7 @@ Matrix::Transpose() {
 
   for (auto r = 0u; r != data.size(); ++r) {
     for (auto c = 0u; c != data.size(); ++c) {
-      transposed(r, c) = data[c][r];
+      transposed(r, c) = (*this)(c, r);
     }
   }
   return transposed;
@@ -214,4 +214,48 @@ Matrix::Inv() const {
   }
 
   return M2;
+}
+
+Translation::Translation(double X, double Y, double Z) : Matrix(4) {
+  data[0][3] = X;
+  data[1][3] = Y;
+  data[2][3] = Z;
+
+  for (auto i = 0u; i < GetSize()[0]; ++i) {
+    data[i][i] = 1;
+  }
+}
+
+Scaling::Scaling(double X, double Y, double Z) : Matrix(4) {
+  data[0][0] = X;
+  data[1][1] = Y;
+  data[2][2] = Z;
+  data[3][3] = 1;
+}
+
+RotationX::RotationX(double angle) : Matrix(4) {
+  data[0][0] = 1;
+  data[1][1] = cos(angle);
+  data[2][2] = cos(angle);
+  data[3][3] = 1;
+  data[2][1] = sin(angle);
+  data[1][2] = -sin(angle);
+}
+
+RotationY::RotationY(double angle) : Matrix(4) {
+  data[0][0] = cos(angle);
+  data[1][1] = 1;
+  data[2][2] = cos(angle);
+  data[3][3] = 1;
+  data[2][0] = -sin(angle);
+  data[0][2] = sin(angle);
+}
+
+RotationZ::RotationZ(double angle) : Matrix(4) {
+  data[0][0] = cos(angle);
+  data[1][1] = cos(angle);
+  data[2][2] = 1;
+  data[3][3] = 1;
+  data[1][0] = sin(angle);
+  data[0][1] = -sin(angle);
 }
