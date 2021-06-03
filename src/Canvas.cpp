@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
+#include <string>
 
 #include "Color.h"
 
@@ -29,7 +30,7 @@ Canvas::Data(const uint32_t Column, const uint32_t Row) const {
 void
 Canvas::WritePixel(const uint32_t Column, const uint32_t Row, const Color& Color) {
   if (Row + 1 > Height() || Column + 1 > Width())
-    throw std::runtime_error("Cannot write to a pixel that is off the canvas");
+    throw std::runtime_error("Cannot write to a pixel (row: " + std::to_string(Row) + ", col: " + std::to_string(Column) + ") that is off the canvas");
 
   data[Column][Row] = Color;
 }
