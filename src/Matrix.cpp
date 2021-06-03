@@ -259,3 +259,17 @@ RotationZ::RotationZ(double angle) : Matrix(4) {
   data[1][0] = sin(angle);
   data[0][1] = -sin(angle);
 }
+
+Shearing::Shearing(double Xy, double Xz, double Yx, double Yz, double Zx, double Zy) : Matrix(4) {
+  data[0][0] = 1;
+  data[1][1] = 1;
+  data[2][2] = 1;
+  data[3][3] = 1;
+
+  data[0][1] = Xy;
+  data[0][2] = Xz;
+  data[1][0] = Yx;
+  data[1][2] = Yz;
+  data[2][0] = Zx;
+  data[2][1] = Zy;
+}
