@@ -16,6 +16,7 @@ Matrix::Matrix(const Matrix& other) {
 
 Matrix&
 Matrix::operator=(const Matrix& Other) {
+  inverse = nullptr;
   data = Other.data;
   return *this;
 }
