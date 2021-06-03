@@ -16,30 +16,38 @@ class Tuple;
 
 class Matrix {
  public:
-  Matrix() = default;
+  Matrix();
   Matrix(const std::vector<std::vector<double>>);
   Matrix(int);
+
+  Matrix(const Matrix&);
+
+  virtual ~Matrix() { };
 
   static Matrix Identity(size_t);
 
   vector<size_t> GetSize() const;
   void InsertRow(const vector<double>&);
   Matrix Transpose();
-  Matrix Inv() const;
+  Matrix& Inv();
   bool IsInvertable() const;
   double Det() const;
   double Minor(int, int) const;
   double Cofactor(int, int) const;
+  void SetValue(size_t, size_t, double);
 
-  double& operator()(size_t, size_t);
   const double& operator()(size_t, size_t) const;
   bool operator==(const Matrix&) const;
+  Matrix& operator=(const Matrix&);
   Matrix operator*(const Matrix&) const;
   std::unique_ptr<Tuple> operator*(const Tuple&) const;
   virtual Matrix Submatrix(int, int) const;
 
  protected:
   vector<vector<double>> data;
+
+private:
+  std::unique_ptr<Matrix> inverse;
 };
 
 class Translation : public Matrix {

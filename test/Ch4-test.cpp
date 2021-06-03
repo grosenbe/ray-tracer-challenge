@@ -97,6 +97,15 @@ TEST(ch4tests, sequenceTransformations) {
   auto B = Scaling(5, 5, 5);
   auto C = Translation(10, 5, 7);
 
+  EXPECT_EQ(A.Inv(), A.Transpose());
+  EXPECT_EQ(A.Inv(), A.Transpose());
+  A.SetValue(1, 1, 1);
+  A.SetValue(2, 2, 1);
+  A.SetValue(2, 1, 0);
+  A.SetValue(1, 2, 0);
+  EXPECT_EQ(A.Inv(), A.Transpose());
+  A = RotationX(PI_2);
+
   auto p2 = *(A * p);
   EXPECT_EQ(p2, *Tuple::MakePoint(1, -1, 0));
 

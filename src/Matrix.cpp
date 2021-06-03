@@ -8,7 +8,19 @@
 
 using namespace RTC;
 
-Matrix::Matrix(int Size) {
+Matrix::Matrix() : inverse(nullptr) {}
+
+Matrix::Matrix(const Matrix& other) {
+  data = other.data;
+}
+
+Matrix&
+Matrix::operator=(const Matrix& Other) {
+  data = Other.data;
+  return *this;
+}
+
+Matrix::Matrix(int Size) : inverse(nullptr) {
   if (Size < 0)
     throw std::runtime_error("Can't have a matrix with negative size");
   size_t size = Size;
@@ -19,7 +31,7 @@ Matrix::Matrix(int Size) {
   }
 }
 
-Matrix::Matrix(const std::vector<std::vector<double>> Data) {
+Matrix::Matrix(const std::vector<std::vector<double>> Data) : inverse(nullptr) {
   for (const auto& r : Data) {
     InsertRow(r);
   }
@@ -44,15 +56,16 @@ Matrix::InsertRow(const vector<double>& newRow) {
   data.push_back(newRow);
 }
 
-double&
-Matrix::operator()(size_t Row, size_t Col) {
+void
+Matrix::SetValue(size_t Row, size_t Col, double Value) {
+  inverse = nullptr;
   if (Row >= data.size()) {
     throw std::runtime_error("Matrix only has " + std::to_string(data.size()) + " rows");
   }
   if (Col >= data[0].size()) {
     throw std::runtime_error("Matrix only has " + std::to_string(data[0].size()) + " columns");
   }
-  return data[Row][Col];
+  data[Row][Col] = Value;
 }
 
 const double&
@@ -95,9 +108,9 @@ Matrix::operator*(const Matrix& other) const {
   for (auto rRow = 0u; rRow < mySize[0]; ++rRow) {
     result.InsertRow(std::vector<double>(otherSize[1], std::numeric_limits<double>::quiet_NaN()));
     for (auto rCol = 0u; rCol < otherSize[1]; ++rCol) {
-      result(rRow, rCol) = 0;
+      result.SetValue(rRow, rCol, 0);
       for (auto m = 0u; m < otherSize[0]; ++m) {
-        result(rRow, rCol) += data[rRow][m] * other(m, rCol);
+        result.SetValue(rRow, rCol, result(rRow, rCol) + data[rRow][m] * other(m, rCol));
       }
     }
   }
@@ -131,13 +144,12 @@ Matrix::Identity(size_t size) {
 Matrix
 Matrix::Transpose() {
   Matrix transposed;
-
   for (auto r = 0u; r != data.size(); ++r)
     transposed.InsertRow(std::vector<double>(data.size(), 0));
 
   for (auto r = 0u; r != data.size(); ++r) {
     for (auto c = 0u; c != data.size(); ++c) {
-      transposed(r, c) = (*this)(c, r);
+      transposed.SetValue(r, c, (*this)(c, r));
     }
   }
   return transposed;
@@ -199,21 +211,24 @@ Matrix::IsInvertable() const {
   return Det() != 0;
 }
 
-Matrix
-Matrix::Inv() const {
+Matrix&
+Matrix::Inv() {
+  if (inverse != nullptr) {
+    return *inverse;
+  }
   if (!IsInvertable()) {
     throw std::runtime_error("Tried to take the inverse of a non-invertable matrix.");
   }
-  Matrix M2(data.size());
+  inverse = std::unique_ptr<Matrix>(new Matrix(data.size()));
 
   auto det = Det();
   for (auto row = 0u; row < data.size(); ++row) {
     for (auto col = 0u; col < data.size(); ++col) {
-      M2(col, row) = Cofactor(row, col) / det;
+      inverse->SetValue(col, row, Cofactor(row, col) / det);
     }
   }
 
-  return M2;
+  return *inverse;
 }
 
 Translation::Translation(double X, double Y, double Z) : Matrix(4) {

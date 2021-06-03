@@ -25,7 +25,7 @@ TEST(ch3tests, matricies) {
   EXPECT_EQ(M(3, 2), 15.5);
   EXPECT_ANY_THROW(M(10, 10));
 
-  M(3, 0) = 13.2;
+  M.SetValue(3, 0, 13.2);
   EXPECT_EQ(M(3, 0), 13.2);
 
   M2.InsertRow({-3, 5});
