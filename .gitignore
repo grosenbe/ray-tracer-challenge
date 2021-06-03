@@ -2,3 +2,4 @@
 build
 .cache
 *.ppm
+compile_commands.json

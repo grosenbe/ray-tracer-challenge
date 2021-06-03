@@ -16,7 +16,7 @@ class Tuple;
 
 class Matrix {
  public:
-  Matrix() {}
+  Matrix() = default;
   Matrix(const std::vector<std::vector<double>>);
   Matrix(int);
 
