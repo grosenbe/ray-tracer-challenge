@@ -10,8 +10,7 @@ using namespace RTC;
 
 Matrix::Matrix() : inverse(nullptr) {}
 
-Matrix::Matrix(const Matrix& other) {
-  data = other.data;
+Matrix::Matrix(const Matrix& other) : data(other.data), inverse(nullptr) {
 }
 
 Matrix&
@@ -118,7 +117,7 @@ Matrix::operator*(const Matrix& other) const {
   return result;
 }
 
-std::unique_ptr<Tuple>
+Tuple
 Matrix::operator*(const Tuple& Tuple) const {
   auto mySize = GetSize();
   if (mySize[0] != 4 || mySize[1] != 4) {

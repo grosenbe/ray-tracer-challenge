@@ -102,9 +102,9 @@ TEST(ch3tests, tupleMultiplication) {
 
   auto T = Tuple::MakeTuple(1, 2, 3, 1);
   auto expected = Tuple::MakeTuple(18, 24, 33, 1);
-  auto product = M * *T;
+  auto product = M * T;
 
-  EXPECT_EQ(*product, *expected);
+  EXPECT_EQ(product, expected);
 }
 
 TEST(ch3tests, identityMatrix) {
@@ -122,7 +122,7 @@ TEST(ch3tests, identityMatrix) {
 
   EXPECT_EQ(A, A * Matrix::Identity(4));
   auto T = Tuple::MakeTuple(1, 2, 3, 4);
-  EXPECT_EQ(*T, *(Matrix::Identity(4) * *T));
+  EXPECT_EQ(T, Matrix::Identity(4) * T);
 }
 
 TEST(ch3tests, transpose) {

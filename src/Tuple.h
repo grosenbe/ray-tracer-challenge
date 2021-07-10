@@ -35,9 +35,9 @@ class Tuple {
 
   Tuple Normalize() const;
 
-  static std::unique_ptr<Tuple> MakeVector(double, double, double);
-  static std::unique_ptr<Tuple> MakePoint(double, double, double);
-  static std::unique_ptr<Tuple> MakeTuple(double, double, double, double);
+  static Tuple MakeVector(double, double, double);
+  static Tuple MakePoint(double, double, double);
+  static Tuple MakeTuple(double, double, double, double);
 
   Tuple(double, double, double, double);
 
@@ -46,9 +46,7 @@ class Tuple {
 };
 
 double Dot(const Tuple &, const Tuple &);
-double Dot(const std::unique_ptr<Tuple> &, const std::unique_ptr<Tuple> &);
 Tuple Cross(const Tuple &, const Tuple &);
-std::unique_ptr<Tuple> Cross(const std::unique_ptr<Tuple> &, const std::unique_ptr<Tuple> &);
 
 bool CompareDoubles(double, double);
 }  // namespace RTC

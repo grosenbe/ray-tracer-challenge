@@ -40,7 +40,7 @@ class Matrix {
   bool operator==(const Matrix&) const;
   Matrix& operator=(const Matrix&);
   Matrix operator*(const Matrix&) const;
-  std::unique_ptr<Tuple> operator*(const Tuple&) const;
+  Tuple operator*(const Tuple&) const;
   virtual Matrix Submatrix(int, int) const;
 
  protected:

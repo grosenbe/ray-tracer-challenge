@@ -18,19 +18,19 @@ RTC::CompareDoubles(double a, double b) {
   return true;
 }
 
-std::unique_ptr<Tuple>
+Tuple
 Tuple::MakeTuple(double X, double Y, double Z, double W) {
-  return std::make_unique<Tuple>(X, Y, Z, W);
+  return Tuple(X, Y, Z, W);
 }
 
-std::unique_ptr<Tuple>
+Tuple
 Tuple::MakePoint(double X, double Y, double Z) {
-  return std::make_unique<Tuple>(X, Y, Z, 1.0);
+  return Tuple(X, Y, Z, 1.0);
 }
 
-std::unique_ptr<Tuple>
+Tuple
 Tuple::MakeVector(double X, double Y, double Z) {
-  return std::make_unique<Tuple>(X, Y, Z, 0.0);
+  return Tuple(X, Y, Z, 0.0);
 }
 
 bool
@@ -100,31 +100,12 @@ RTC::Dot(const Tuple &t1, const Tuple &t2) {
          t1.GetZ() * t2.GetZ();
 }
 
-double
-RTC::Dot(const std::unique_ptr<Tuple> &t1, const std::unique_ptr<Tuple> &t2) {
-  return t1->GetX() * t2->GetX() +
-         t1->GetY() * t2->GetY() +
-         t1->GetZ() * t2->GetZ();
-}
-
 Tuple
 RTC::Cross(const Tuple &a, const Tuple &b) {
   if (!a.IsVector() || !b.IsVector())
     throw std::runtime_error("Cross product only works on vectors.");
 
-  return *Tuple::MakeVector(a.GetY() * b.GetZ() - a.GetZ() * b.GetY(),
-                            a.GetZ() * b.GetX() - a.GetX() * b.GetZ(),
-                            a.GetX() * b.GetY() - a.GetY() * b.GetX());
-}
-
-std::unique_ptr<Tuple>
-RTC::Cross(const std::unique_ptr<Tuple> &a, const std::unique_ptr<Tuple> &b) {
-  if (!a->IsVector() || !b->IsVector())
-    throw std::runtime_error("Cross product only works on vectors.");
-
-  auto T = Tuple::MakeVector(a->GetY() * b->GetZ() - a->GetZ() * b->GetY(),
-                             a->GetZ() * b->GetX() - a->GetX() * b->GetZ(),
-                             a->GetX() * b->GetY() - a->GetY() * b->GetX());
-
-  return T;
+  return Tuple::MakeVector(a.GetY() * b.GetZ() - a.GetZ() * b.GetY(),
+                           a.GetZ() * b.GetX() - a.GetX() * b.GetZ(),
+                           a.GetX() * b.GetY() - a.GetY() * b.GetX());
 }
