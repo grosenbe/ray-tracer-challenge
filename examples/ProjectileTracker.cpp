@@ -31,9 +31,9 @@ tick(environment &env, projectile &proj) {
 
 int
 main(int argc __attribute__((unused)), char **argv __attribute__((unused))) {
-  projectile p{*RTC::Tuple::MakePoint(0, 1, 0), RTC::Tuple::MakeVector(1, 1, 0)->Normalize()};
+  projectile p{RTC::Tuple::MakePoint(0, 1, 0), RTC::Tuple::MakeVector(1, 1, 0).Normalize()};
 
-  environment e{*RTC::Tuple::MakeVector(0, -0.1, 0), *RTC::Tuple::MakeVector(0, 0, 0)};
+  environment e{RTC::Tuple::MakeVector(0, -0.1, 0), RTC::Tuple::MakeVector(0, 0, 0)};
 
   Canvas canvas(20, 20);
 

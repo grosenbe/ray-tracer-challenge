@@ -1,3 +1,6 @@
+#ifndef MATRIX_H
+#define MATRIX_H
+
 #include <cstddef>
 #include <cstdint>
 #include <memory>
@@ -81,3 +84,5 @@ class Shearing : public Matrix {
 };
 
 };  // namespace RTC
+
+#endif

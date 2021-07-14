@@ -20,3 +20,14 @@ target_include_directories(
 target_link_libraries(
   ClockFace
   raytracerchallenge)
+
+add_executable(
+  SphereSilhouette
+  SphereSilhouette.cpp)
+
+target_include_directories(
+  SphereSilhouette PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..)
+
+target_link_libraries(
+  SphereSilhouette
+  raytracerchallenge)

@@ -10,8 +10,8 @@ class Ray {
  public:
   Ray(const Tuple &, const Tuple &);
 
-  const Tuple &origin;
-  const Tuple &direction;
+  const Tuple origin;
+  const Tuple direction;
 };
 
 Tuple Position(const Ray &, const double);

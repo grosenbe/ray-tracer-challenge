@@ -4,4 +4,5 @@ add_library(raytracerchallenge
   Canvas.cpp
   Matrix.cpp
   Ray.cpp
+  Sphere.cpp
   )

@@ -11,7 +11,7 @@ int
 main(void) {
   auto clockSize = 600;
   auto scaleFactor = clockSize / 2;
-  auto hand = *Tuple::MakePoint(0, 1, 0);
+  auto hand = Tuple::MakePoint(0, 1, 0);
 
   auto canvas = Canvas(clockSize + 1, clockSize + 1);
 
@@ -20,7 +20,7 @@ main(void) {
   for (auto i = 0; i < 12; ++i) {
     auto xform = Scaling(scaleFactor, scaleFactor, 0) *
                  RotationZ(angle);
-    auto position = *(xform * hand);
+    auto position = xform * hand;
     std::cerr << "x: " << std::to_string(position.GetX()) << " y: " << std::to_string(position.GetY()) << std::endl;
     canvas.WritePixel(scaleFactor + position.GetX(), scaleFactor - position.GetY(), Color(1, 1, 1));
     angle -= clockAngle;

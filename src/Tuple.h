@@ -39,10 +39,11 @@ class Tuple {
   static Tuple MakePoint(double, double, double);
   static Tuple MakeTuple(double, double, double, double);
 
-  Tuple(double, double, double, double);
-
  private:
   double x, y, z, w;
+
+ protected:
+  Tuple(double, double, double, double);
 };
 
 double Dot(const Tuple &, const Tuple &);
