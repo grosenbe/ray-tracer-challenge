@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "Material.h"
 #include "Matrix.h"
 #include "Ray.h"
 
@@ -13,7 +14,10 @@ class Sphere {
   Sphere();
   void SetTransform(const Matrix &);
 
+  Tuple normal_at(const Tuple &);
+
   Matrix transform;
+  Material material;
 };
 
 struct intersection {
@@ -34,6 +38,6 @@ std::shared_ptr<Sphere> sphere();
 
 intersection hit(std::vector<intersection> &);
 
-Ray Transform(const Ray &, const Matrix &);
+Ray transform(const Ray &, const Matrix &);
 }  // namespace RTC
 #endif

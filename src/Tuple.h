@@ -48,6 +48,7 @@ class Tuple {
 
 double Dot(const Tuple &, const Tuple &);
 Tuple Cross(const Tuple &, const Tuple &);
+Tuple Reflect(const Tuple &, const Tuple &);
 
 bool CompareDoubles(double, double);
 }  // namespace RTC

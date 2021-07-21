@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <stdexcept>
 
 #include "Tuple.h"
 
@@ -23,9 +24,23 @@ Sphere::SetTransform(const Matrix &m) {
   transform = m;
 }
 
+Tuple
+Sphere::normal_at(const Tuple &worldPoint) {
+  if (!worldPoint.IsPoint()) {
+    throw std::runtime_error("Expected a point.");
+  }
+
+  auto objectPoint = transform.Inv() * worldPoint;
+  auto objectNormal = objectPoint - Tuple::MakePoint(0, 0, 0);
+  auto worldNormal = transform.Inv().Transpose() * objectNormal;
+  auto normalized = worldNormal.Normalize();
+
+  return Tuple::MakeVector(normalized.GetX(), normalized.GetY(), normalized.GetZ());
+}
+
 std::vector<intersection>
 RTC::intersect(std::shared_ptr<Sphere> s, const Ray &r) {
-  auto r_transform = Transform(r, s->transform.Inv());
+  auto r_transform = transform(r, s->transform.Inv());
   auto sphere_to_ray = r_transform.origin - Tuple::MakePoint(0, 0, 0);
   auto a = Dot(r_transform.direction, r_transform.direction);
   auto b = 2 * Dot(r_transform.direction, sphere_to_ray);
@@ -62,6 +77,6 @@ RTC::hit(vector<intersection> &Intersections) {
 }
 
 Ray
-RTC::Transform(const Ray &r, const Matrix &m) {
+RTC::transform(const Ray &r, const Matrix &m) {
   return Ray(m * r.origin, m * r.direction);
 }

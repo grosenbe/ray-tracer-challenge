@@ -3,6 +3,9 @@ add_library(raytracerchallenge
   Color.cpp
   Canvas.cpp
   Matrix.cpp
+  PointLight.cpp
+  Material.cpp
   Ray.cpp
   Sphere.cpp
+  PointLight.cpp
   )

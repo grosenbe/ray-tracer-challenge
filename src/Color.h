@@ -15,7 +15,9 @@ class Color : public Tuple {
   double
   blue() const { return GetZ(); }
 
- private:
+  Color operator*(const Color &) const;
+  Color operator*(const double) const;
+  Color operator+(const Color &) const;
 };
 }  // namespace RTC
 #endif

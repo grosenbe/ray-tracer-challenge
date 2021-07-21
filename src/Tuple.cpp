@@ -1,7 +1,6 @@
 #include "Tuple.h"
 
 #include <cmath>
-#include <cstdlib>
 #include <limits>
 #include <stdexcept>
 
@@ -108,4 +107,12 @@ RTC::Cross(const Tuple &a, const Tuple &b) {
   return Tuple::MakeVector(a.GetY() * b.GetZ() - a.GetZ() * b.GetY(),
                            a.GetZ() * b.GetX() - a.GetX() * b.GetZ(),
                            a.GetX() * b.GetY() - a.GetY() * b.GetX());
+}
+
+Tuple
+RTC::Reflect(const Tuple &v, const Tuple &n) {
+  if (!v.IsVector() || !n.IsVector())
+    throw std::runtime_error("Reflection only works with vectors.");
+
+  return v - n * 2 * RTC::Dot(v, n);
 }

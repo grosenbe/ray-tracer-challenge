@@ -105,12 +105,12 @@ TEST(ch5tests, intersections2) {
 TEST(ch5tests, rays) {
   auto r = Ray(Tuple::MakePoint(1, 2, 3), Tuple::MakeVector(0, 1, 0));
   auto m = Translation(3, 4, 5);
-  auto r2 = Transform(r, m);
+  auto r2 = transform(r, m);
   EXPECT_EQ(r2.origin, Tuple::MakePoint(4, 6, 8));
   EXPECT_EQ(r2.direction, Tuple::MakeVector(0, 1, 0));
 
   auto m2 = Scaling(2, 3, 4);
-  auto r3 = Transform(r, m2);
+  auto r3 = transform(r, m2);
   EXPECT_EQ(r3.origin, Tuple::MakePoint(2, 6, 12));
   EXPECT_EQ(r3.direction, Tuple::MakeVector(0, 3, 0));
 }

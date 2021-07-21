@@ -219,7 +219,7 @@ Matrix::Inv() {
   if (!IsInvertable()) {
     throw std::runtime_error("Tried to take the inverse of a non-invertable matrix.");
   }
-  inverse = std::unique_ptr<Matrix>(new Matrix(data.size()));
+  inverse = std::make_unique<Matrix>(data.size());
 
   auto det = Det();
   for (auto row = 0u; row < data.size(); ++row) {
