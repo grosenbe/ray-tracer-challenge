@@ -12,8 +12,13 @@ namespace RTC {
 class Sphere {
  public:
   Sphere();
-  void SetTransform(const Matrix &);
+  Sphere(const Matrix &);
+  Sphere(const Material &);
+  Sphere(const Matrix &, const Material &);
 
+  bool operator==(const Sphere &) const;
+
+  void SetTransform(const Matrix &);
   Tuple normal_at(const Tuple &);
 
   Matrix transform;

@@ -16,6 +16,19 @@ RTC::sphere() {
   return std::make_shared<Sphere>();
 }
 
+Sphere::Sphere(const Matrix &m) {
+  SetTransform(m);
+}
+
+Sphere::Sphere(const Material &m) {
+  material = m;
+}
+
+Sphere::Sphere(const Matrix &aMatrix, const Material &aMaterial) {
+  transform = aMatrix;
+  material = aMaterial;
+}
+
 Sphere::Sphere() : transform(Matrix::Identity(4)) {
 }
 
@@ -36,6 +49,11 @@ Sphere::normal_at(const Tuple &worldPoint) {
   auto normalized = worldNormal.Normalize();
 
   return Tuple::MakeVector(normalized.GetX(), normalized.GetY(), normalized.GetZ());
+}
+
+bool
+Sphere::operator==(const Sphere &other) const {
+  return transform == other.transform && material == other.material;
 }
 
 std::vector<intersection>

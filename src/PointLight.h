@@ -8,12 +8,17 @@
 namespace RTC {
 class PointLight {
  public:
+  PointLight();
+
   PointLight(const Tuple &, const Color &);
+
   Tuple
   GetPosition() const { return position; }
 
   Color
   GetIntensity() const { return intensity; }
+
+  bool operator==(const PointLight &) const;
 
  private:
   Tuple position;

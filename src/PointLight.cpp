@@ -8,7 +8,14 @@
 
 using namespace RTC;
 
+PointLight::PointLight() : position(Tuple::MakePoint(0, 0, 0)), intensity(Color(0, 0, 0)) {}
+
 PointLight::PointLight(const Tuple &aPosition, const Color &anIntensity) : position(aPosition), intensity(anIntensity) {
+}
+
+bool
+PointLight::operator==(const PointLight &other) const {
+  return position == other.position && intensity == other.intensity;
 }
 
 Color
