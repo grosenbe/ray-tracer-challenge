@@ -83,6 +83,8 @@ class Shearing : public Matrix {
   Shearing(double, double, double, double, double, double);
 };
 
-};  // namespace RTC
+  Matrix view_transformation(const Tuple&, const Tuple&, const Tuple&);
+
+};  // Namespace RTC
 
 #endif

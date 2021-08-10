@@ -6,6 +6,7 @@
 
 #include "Tuple.h"
 
+using std::vector;
 using namespace RTC;
 
 Matrix::Matrix() : inverse(nullptr) {}
@@ -26,12 +27,12 @@ Matrix::Matrix(int Size) : inverse(nullptr) {
   size_t size = Size;
 
   for (auto r = 0u; r < size; ++r) {
-    auto row = std::vector<double>(size, 0);
+    auto row = vector<double>(size, 0);
     InsertRow(row);
   }
 }
 
-Matrix::Matrix(const std::vector<std::vector<double>> Data) : inverse(nullptr) {
+Matrix::Matrix(const vector<vector<double>> Data) : inverse(nullptr) {
   for (const auto& r : Data) {
     InsertRow(r);
   }
@@ -106,7 +107,7 @@ Matrix::operator*(const Matrix& other) const {
 
   Matrix result;
   for (auto rRow = 0u; rRow < mySize[0]; ++rRow) {
-    result.InsertRow(std::vector<double>(otherSize[1], std::numeric_limits<double>::quiet_NaN()));
+    result.InsertRow(vector<double>(otherSize[1], std::numeric_limits<double>::quiet_NaN()));
     for (auto rCol = 0u; rCol < otherSize[1]; ++rCol) {
       result.SetValue(rRow, rCol, 0);
       for (auto m = 0u; m < otherSize[0]; ++m) {
@@ -134,7 +135,7 @@ Matrix
 Matrix::Identity(size_t size) {
   Matrix result;
   for (auto r = 0u; r < size; ++r) {
-    auto row = std::vector<double>(size, 0);
+    auto row = vector<double>(size, 0);
     row[r] = 1;
     result.InsertRow(row);
   }
@@ -145,7 +146,7 @@ Matrix
 Matrix::Transpose() {
   Matrix transposed;
   for (auto r = 0u; r != data.size(); ++r)
-    transposed.InsertRow(std::vector<double>(data.size(), 0));
+    transposed.InsertRow(vector<double>(data.size(), 0));
 
   for (auto r = 0u; r != data.size(); ++r) {
     for (auto c = 0u; c != data.size(); ++c) {
@@ -287,4 +288,18 @@ Shearing::Shearing(double Xy, double Xz, double Yx, double Yz, double Zx, double
   data[1][2] = Yz;
   data[2][0] = Zx;
   data[2][1] = Zy;
+}
+
+Matrix
+RTC::view_transformation(const Tuple& From, const Tuple& To, const Tuple& Up) {
+  auto forward = (To - From).Normalize();
+  auto upn = Up.Normalize();
+  auto left = Cross(forward, upn);
+  auto true_up = Cross(left, forward);
+
+  auto Orientation = Matrix({{left.GetX(), left.GetY(), left.GetZ(), 0},
+                             {true_up.GetX(), true_up.GetY(), true_up.GetZ(), 0},
+                             {-forward.GetX(), -forward.GetY(), -forward.GetZ(), 0},
+                             {0, 0, 0, 1}});
+  return Orientation * Translation(-From.GetX(), -From.GetY(), -From.GetZ());
 }

@@ -22,10 +22,11 @@ Sphere::Sphere(const Matrix &m) {
 
 Sphere::Sphere(const Material &m) {
   material = m;
+  SetTransform(Matrix::Identity(4));
 }
 
 Sphere::Sphere(const Matrix &aMatrix, const Material &aMaterial) {
-  transform = aMatrix;
+  SetTransform(aMatrix);
   material = aMaterial;
 }
 
@@ -34,6 +35,7 @@ Sphere::Sphere() : transform(Matrix::Identity(4)) {
 
 void
 Sphere::SetTransform(const Matrix &m) {
+  // TODO make sure the matrix is the right size
   transform = m;
 }
 
