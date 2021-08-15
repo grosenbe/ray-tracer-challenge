@@ -1,9 +1,12 @@
 #include <gtest/gtest.h>
 
+#include "src/Camera.h"
 #include "src/Color.h"
+#include "src/Matrix.h"
 #include "src/PointLight.h"
 #include "src/Ray.h"
 #include "src/Sphere.h"
+#include "src/Tuple.h"
 #include "src/World.h"
 
 using namespace RTC;
@@ -133,4 +136,48 @@ TEST(ch7tests, viewTransformations) {
                     {0.76772, 0.60609, 0.12122, -2.82843},
                     {-0.35857, 0.59761, -0.71714, 0.00000},
                     {0.00000, 0.00000, 0.00000, 1.00000}}));
+}
+
+TEST(ch7tests, camera) {
+  auto hSize = 150;
+  auto vSize = 120;
+  auto FieldOfView = PI_2;
+
+  Camera c(hSize, vSize, FieldOfView);
+
+  EXPECT_EQ(c.getHSize(), hSize);
+  EXPECT_EQ(c.getVSize(), vSize);
+  EXPECT_EQ(c.getFOV(), FieldOfView);
+  EXPECT_EQ(c.getTransform(), Matrix::Identity(4));
+
+  Camera c2(200, 125, PI_2);
+  EXPECT_TRUE(CompareDoubles(c2.getPixelSize(), 0.01));
+}
+
+TEST(ch7tests, rayThroughCenterOfCanvas) {
+  Camera c(201, 101, PI_2);
+  auto r = c.RayForPixel(100, 50);
+  EXPECT_EQ(r.origin, Tuple::MakePoint(0, 0, 0));
+  EXPECT_EQ(r.direction, Tuple::MakeVector(0, 0, -1));
+
+  auto r2 = c.RayForPixel(0, 0);
+  EXPECT_EQ(r2.origin, Tuple::MakePoint(0, 0, 0));
+  EXPECT_EQ(r2.direction, Tuple::MakeVector(0.66519, 0.33259, -0.66851));
+
+  c.setTransform(RotationY(PI_4) * Translation(0, -2, 5));
+  auto r3 = c.RayForPixel(100, 50);
+  EXPECT_EQ(r3.origin, Tuple::MakePoint(0, 2, -5));
+  EXPECT_EQ(r3.direction, Tuple::MakeVector(SQRT2 / 2, 0, -SQRT2 / 2));
+}
+
+TEST(ch7tests, renderingAWorldWithACamera) {
+  auto w = default_world();
+  auto c = Camera(11, 11, PI_2);
+  auto from = Tuple::MakePoint(0, 0, -5);
+  auto to = Tuple::MakePoint(0, 0, 0);
+  auto up = Tuple::MakeVector(0, 1, 0);
+  c.setTransform(view_transformation(from, to, up));
+
+  auto image = c.Render(w);
+  EXPECT_EQ(image.Data(5, 5), Color(.38066, .47583, .2855));
 }

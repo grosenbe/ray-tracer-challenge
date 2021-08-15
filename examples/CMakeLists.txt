@@ -31,3 +31,15 @@ target_include_directories(
 target_link_libraries(
   SphereSilhouette
   raytracerchallenge)
+
+add_executable(
+  Scene
+  Scene.cpp)
+
+target_include_directories(
+  Scene PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..)
+
+target_link_libraries(
+  Scene
+  raytracerchallenge)
+

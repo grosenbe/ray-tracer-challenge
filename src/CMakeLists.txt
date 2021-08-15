@@ -9,4 +9,5 @@ add_library(raytracerchallenge
   Sphere.cpp
   PointLight.cpp
   World.cpp
+  Camera.cpp
   )
