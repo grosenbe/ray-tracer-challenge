@@ -10,6 +10,7 @@ namespace RTC {
 constexpr int MAXLINELENGTH = 70;
 class Canvas {
  public:
+  Canvas() = default;
   Canvas(const uint32_t, const uint32_t);
 
   size_t

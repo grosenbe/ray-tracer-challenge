@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <cstdint>
+#include <thread>
 
 #include "World.h"
 
@@ -39,15 +40,34 @@ Camera::RayForPixel(int px, int py) {
   return Ray(origin, direction);
 }
 
-Canvas
-Camera::Render(const World &world) {
-  auto image = Canvas(hSize, vSize);
-
-  for (auto y = 0u; y < vSize - 1; ++y) {
-    for (auto x = 0u; x < hSize - 1; ++x) {
+void
+Camera::RenderSubimage(Canvas image, const World world, const std::pair<uint32_t, uint32_t> xExtents, const std::pair<uint32_t, uint32_t> yExtents) {
+  for (auto y = yExtents.first; y < yExtents.second; ++y) {
+    for (auto x = xExtents.first; x < xExtents.second; ++x) {
       auto ray = RayForPixel(x, y);
       image.WritePixel(x, y, color_at(world, ray));
     }
   }
+}
+
+Canvas
+Camera::Render(const World &aWorld) {
+  world = aWorld;
+  image = Canvas(hSize, vSize);
+
+  auto horizExtents = std::make_pair(0, hSize);
+  auto vertExtents = std::make_pair(0, vSize);
+  std::thread th1([&](std::pair<uint32_t, uint32_t> xExtents, std::pair<uint32_t, uint32_t> yExtents) {
+    for (auto y = yExtents.first; y < yExtents.second; ++y) {
+      for (auto x = xExtents.first; x < xExtents.second; ++x) {
+        auto ray = RayForPixel(x, y);
+        image.WritePixel(x, y, color_at(world, ray));
+      }
+    }
+  },
+                  horizExtents, vertExtents);
+
+  th1.join();
+
   return image;
 }
