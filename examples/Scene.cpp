@@ -11,7 +11,7 @@ using namespace RTC;
 
 int
 main(void) {
-  auto floor = std::make_shared<Sphere>();
+  auto floor = sphere();
   floor->SetTransform(Scaling(10, 0.01, 10));
   floor->material.color = Color(1, 0.9, 0.9);
   floor->material.specular = 0;
