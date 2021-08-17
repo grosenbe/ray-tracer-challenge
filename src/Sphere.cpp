@@ -38,7 +38,7 @@ void
 Sphere::SetTransform(const Matrix &m) {
   // TODO make sure the matrix is the right size
   transform = m;
-  transform.Inv();
+  transform.Inverse();
 }
 
 Tuple
@@ -47,9 +47,9 @@ Sphere::normal_at(const Tuple &worldPoint) {
     throw std::runtime_error("Expected a point.");
   }
 
-  auto objectPoint = transform.Inv() * worldPoint;
+  auto objectPoint = transform.Inverse() * worldPoint;
   auto objectNormal = objectPoint - Tuple::MakePoint(0, 0, 0);
-  auto worldNormal = transform.Inv().Transpose() * objectNormal;
+  auto worldNormal = transform.Inverse().Transpose() * objectNormal;
   auto normalized = worldNormal.Normalize();
 
   return Tuple::MakeVector(normalized.GetX(), normalized.GetY(), normalized.GetZ());
@@ -62,7 +62,7 @@ Sphere::operator==(const Sphere &other) const {
 
 std::vector<intersection>
 RTC::intersect(std::shared_ptr<Sphere> s, const Ray &r) {
-  auto r_transform = transform(r, s->transform.Inv());
+  auto r_transform = transform(r, s->transform.Inverse());
   auto sphere_to_ray = r_transform.origin - Tuple::MakePoint(0, 0, 0);
   auto a = Dot(r_transform.direction, r_transform.direction);
   auto b = 2 * Dot(r_transform.direction, sphere_to_ray);

@@ -11,7 +11,7 @@ TEST(ch4tests, translation) {
 
   EXPECT_EQ((transform * p), Tuple::MakePoint(2, 1, 7));
 
-  auto inv = transform.Inv();
+  auto inv = transform.Inverse();
   EXPECT_EQ((inv * p), Tuple::MakePoint(-8, 7, 3));
 
   auto v = Tuple::MakeVector(-3, 4, 5);
@@ -27,7 +27,7 @@ TEST(ch4tests, scaling) {
   auto v = Tuple::MakeVector(-4, 6, 8);
   EXPECT_EQ(transform * v, Tuple::MakeVector(-8, 18, 32));
 
-  auto reverse = transform.Inv();
+  auto reverse = transform.Inverse();
   EXPECT_EQ(reverse * v, Tuple::MakeVector(-2, 2, 2));
 }
 
@@ -46,7 +46,7 @@ TEST(ch4tests, rotationX) {
   EXPECT_EQ(half_quarter * p, Tuple::MakePoint(0, SQRT2 / 2, SQRT2 / 2));
   EXPECT_EQ(full_quarter * p, Tuple::MakePoint(0, 0, 1));
 
-  auto half_quarter_back = half_quarter.Inv();
+  auto half_quarter_back = half_quarter.Inverse();
   EXPECT_EQ(half_quarter_back * p, Tuple::MakePoint(0, SQRT2 / 2, -SQRT2 / 2));
 }
 
@@ -97,13 +97,13 @@ TEST(ch4tests, sequenceTransformations) {
   auto B = Scaling(5, 5, 5);
   auto C = Translation(10, 5, 7);
 
-  EXPECT_EQ(A.Inv(), A.Transpose());
-  EXPECT_EQ(A.Inv(), A.Transpose());
+  EXPECT_EQ(A.Inverse(), A.Transpose());
+  EXPECT_EQ(A.Inverse(), A.Transpose());
   A.SetValue(1, 1, 1);
   A.SetValue(2, 2, 1);
   A.SetValue(2, 1, 0);
   A.SetValue(1, 2, 0);
-  EXPECT_EQ(A.Inv(), A.Transpose());
+  EXPECT_EQ(A.Inverse(), A.Transpose());
   A = RotationX(PI_2);
 
   auto p2 = A * p;

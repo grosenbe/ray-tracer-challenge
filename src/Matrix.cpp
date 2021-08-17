@@ -213,10 +213,11 @@ Matrix::IsInvertable() const {
 }
 
 Matrix&
-Matrix::Inv() {
+Matrix::Inverse() {
   if (inverse != nullptr) {
     return *inverse;
   }
+
   if (!IsInvertable()) {
     throw std::runtime_error("Tried to take the inverse of a non-invertable matrix.");
   }

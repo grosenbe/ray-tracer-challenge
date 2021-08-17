@@ -33,8 +33,8 @@ Camera::RayForPixel(int px, int py) {
   auto worldX = halfWidth - xOffset;
   auto worldY = halfHeight - yOffset;
 
-  auto pixel = transform.Inv() * Tuple::MakePoint(worldX, worldY, -1);
-  auto origin = transform.Inv() * Tuple::MakePoint(0, 0, 0);
+  auto pixel = transform.Inverse() * Tuple::MakePoint(worldX, worldY, -1);
+  auto origin = transform.Inverse() * Tuple::MakePoint(0, 0, 0);
   auto direction = (pixel - origin).Normalize();
 
   return Ray(origin, direction);
@@ -44,9 +44,8 @@ Canvas
 Camera::Render(const World &aWorld) {
   world = aWorld;
   image = Canvas(hSize, vSize);
-
+  transform.Inverse();
   std::vector<std::thread> threads;
-
   for (auto t = 0u; t < NUM_THREADS; ++t) {
     threads.emplace_back(std::thread([&](std::pair<uint32_t, uint32_t> xExtents, std::pair<uint32_t, uint32_t> yExtents) {
       for (auto y = yExtents.first; y <= yExtents.second; ++y) {

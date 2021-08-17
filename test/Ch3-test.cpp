@@ -219,7 +219,7 @@ TEST(ch3tests, isInvertable) {
 TEST(ch3tests, calculateInverse) {
   Matrix A({{-5, 2, 6, -8}, {1, -5, 1, 8}, {7, 7, -6, -7}, {1, -3, 7, 4}});
 
-  auto APrime = A.Inv();
+  auto APrime = A.Inverse();
   EXPECT_EQ(A.Det(), 532);
   EXPECT_EQ(A.Cofactor(2, 3), -160);
   EXPECT_EQ(APrime(3, 2), -160 / 532.);
@@ -233,7 +233,7 @@ TEST(ch3tests, calculateInverse) {
   EXPECT_EQ(APrime, APrimeExpected);
 
   Matrix B({{8, -5, 9, 2}, {7, 5, 6, 1}, {-6, 0, 9, 6}, {-3, 0, -9, -4}});
-  auto BPrime = B.Inv();
+  auto BPrime = B.Inverse();
   Matrix BPrimeExpected({{-.15385, -.15385, -.28205, -.53846},
                          {-.07692, .12308, .02564, .03077},
                          {.35897, .35897, .43590, .92308},
@@ -244,7 +244,7 @@ TEST(ch3tests, calculateInverse) {
             {-5, -2, -6, -3},
             {-4, 9, 6, 4},
             {-7, 6, 6, 2}});
-  auto CPrime = C.Inv();
+  auto CPrime = C.Inverse();
   Matrix CPrimeExpected({{-.04074, -.07778, .14444, -.22222},
                          {-.07778, .03333, .36667, -.33333},
                          {-.02901, -.14630, -.10926, .12963},
@@ -252,7 +252,7 @@ TEST(ch3tests, calculateInverse) {
   EXPECT_EQ(CPrime, CPrimeExpected);
 
   Matrix D({{-4, 2, -2, -3}, {9, 6, 2, 6}, {0, -5, 1, -5}, {0, 0, 0, 0}});
-  EXPECT_ANY_THROW(D.Inv());
+  EXPECT_ANY_THROW(D.Inverse());
 
   Matrix E({{3, -9, 7, 3},
             {3, -8, 2, -9},
@@ -263,5 +263,5 @@ TEST(ch3tests, calculateInverse) {
             {7, 0, 5, 4},
             {6, -2, 0, 5}});
   Matrix G = E * F;
-  EXPECT_EQ(G * F.Inv(), E);
+  EXPECT_EQ(G * F.Inverse(), E);
 }

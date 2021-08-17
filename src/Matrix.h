@@ -32,7 +32,7 @@ class Matrix {
   vector<size_t> GetSize() const;
   void InsertRow(const vector<double>&);
   Matrix Transpose();
-  Matrix& Inv();
+  Matrix& Inverse();
   bool IsInvertable() const;
   double Det() const;
   double Minor(int, int) const;

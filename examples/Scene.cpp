@@ -53,7 +53,7 @@ main(void) {
   w.Objects.push_back(right);
   w.Objects.push_back(left);
 
-  Camera camera(400, 400, PI / 3);
+  Camera camera(1920, 1080, PI / 3);
   camera.setTransform(view_transformation(Tuple::MakePoint(0, 1.5, -5),
                                           Tuple::MakePoint(0, 1, 0),
                                           Tuple::MakeVector(0, 1, 0)));
