@@ -30,13 +30,15 @@ Sphere::Sphere(const Matrix &aMatrix, const Material &aMaterial) {
   material = aMaterial;
 }
 
-Sphere::Sphere() : transform(Matrix::Identity(4)) {
+Sphere::Sphere() {
+  SetTransform(Matrix::Identity(4));
 }
 
 void
 Sphere::SetTransform(const Matrix &m) {
   // TODO make sure the matrix is the right size
   transform = m;
+  transform.Inv();
 }
 
 Tuple

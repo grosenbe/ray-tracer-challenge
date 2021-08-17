@@ -1,3 +1,5 @@
+#include <exception>
+#include <iostream>
 #include <memory>
 
 #include "src/Camera.h"
@@ -51,11 +53,15 @@ main(void) {
   w.Objects.push_back(right);
   w.Objects.push_back(left);
 
-  Camera camera(1366, 768, PI / 3);
+  Camera camera(400, 400, PI / 3);
   camera.setTransform(view_transformation(Tuple::MakePoint(0, 1.5, -5),
                                           Tuple::MakePoint(0, 1, 0),
                                           Tuple::MakeVector(0, 1, 0)));
 
-  Canvas canvas = camera.Render(w);
-  canvas.CanvasToPPM("TestImage.ppm");
+  try {
+    Canvas canvas = camera.Render(w);
+    canvas.CanvasToPPM("TestImage.ppm");
+  } catch (std::exception &e) {
+    std::cerr << e.what() << std::endl;
+  }
 }

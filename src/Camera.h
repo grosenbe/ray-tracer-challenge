@@ -8,6 +8,8 @@
 #include "Ray.h"
 #include "World.h"
 
+#define NUM_THREADS 4
+
 namespace RTC {
 
 class Camera {
@@ -31,8 +33,6 @@ class Camera {
   Canvas Render(const World&);
 
  private:
-  void RenderSubimage(Canvas, const World, const std::pair<uint32_t, uint32_t>, const std::pair<uint32_t, uint32_t>);
-
   uint32_t hSize, vSize;
   double FOV, pixelSize, halfWidth, halfHeight;
   Matrix transform;

@@ -40,47 +40,27 @@ Camera::RayForPixel(int px, int py) {
   return Ray(origin, direction);
 }
 
-void
-Camera::RenderSubimage(Canvas image, const World world, const std::pair<uint32_t, uint32_t> xExtents, const std::pair<uint32_t, uint32_t> yExtents) {
-  for (auto y = yExtents.first; y < yExtents.second; ++y) {
-    for (auto x = xExtents.first; x < xExtents.second; ++x) {
-      auto ray = RayForPixel(x, y);
-      image.WritePixel(x, y, color_at(world, ray));
-    }
-  }
-}
-
 Canvas
 Camera::Render(const World &aWorld) {
   world = aWorld;
   image = Canvas(hSize, vSize);
 
-  auto horizExtents = std::make_pair(0, hSize / 2 - 1);
-  auto vertExtents = std::make_pair(0, vSize / 2 - 1);
-  std::thread th1([&](std::pair<uint32_t, uint32_t> xExtents, std::pair<uint32_t, uint32_t> yExtents) {
-    for (auto y = yExtents.first; y < yExtents.second; ++y) {
-      for (auto x = xExtents.first; x < xExtents.second; ++x) {
-        auto ray = RayForPixel(x, y);
-        image.WritePixel(x, y, color_at(world, ray));
-      }
-    }
-  },
-                  horizExtents, vertExtents);
+  std::vector<std::thread> threads;
 
-  auto horizExtents2 = std::make_pair(hSize / 2, hSize);
-  auto vertExtents2 = std::make_pair(vSize / 2, vSize);
-  std::thread th2([&](std::pair<uint32_t, uint32_t> xExtents, std::pair<uint32_t, uint32_t> yExtents) {
-    for (auto y = yExtents.first; y < yExtents.second; ++y) {
-      for (auto x = xExtents.first; x < xExtents.second; ++x) {
-        auto ray = RayForPixel(x, y);
-        image.WritePixel(x, y, color_at(world, ray));
+  for (auto t = 0u; t < NUM_THREADS; ++t) {
+    threads.emplace_back(std::thread([&](std::pair<uint32_t, uint32_t> xExtents, std::pair<uint32_t, uint32_t> yExtents) {
+      for (auto y = yExtents.first; y <= yExtents.second; ++y) {
+        for (auto x = xExtents.first; x < xExtents.second; ++x) {
+          auto ray = RayForPixel(x, y);
+          image.WritePixel(x, y, color_at(world, ray));
+        }
       }
-    }
-  },
-                  horizExtents2, vertExtents2);
+    },
+                                     std::make_pair(0, hSize), std::make_pair(t * vSize / NUM_THREADS, (t + 1) * vSize / NUM_THREADS - 1)));
+  }
 
-  th1.join();
-  th2.join();
+  for (auto &t : threads)
+    t.join();
 
   return image;
 }
